@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userSlice  from "./Slice/userSlice";
-import  adminSlice  from "./Slice/AdminSlice";
+import userSlice from "./Slices/UserSlice";
+import adminSlice from "./Slices/AdminSlice";
 import { combineReducers } from 'redux';
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from 'redux-persist';

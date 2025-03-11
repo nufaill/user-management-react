@@ -4,7 +4,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './UserSignup.css'; 
-import { addUser } from '../../../Redux/Slices/userSlice';
+import { addUser } from "@/Redux/Slices/UserSlice";
 import { useDispatch } from 'react-redux';
 
 

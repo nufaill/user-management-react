@@ -11,13 +11,13 @@ const adminSlice = createSlice({
         updateadmin:(state,action)=>{
             state.admin = {...state.admin,...action.payload}
         },
-        logoutadmin:(state)=>{
+        logoutAdmin:(state)=>{
             state.admin=null;
             state.token=null;
         },
     },
 });
 
-export const { addadmin, updateadmin,logoutadmin } = adminSlice.actions;
+export const { addadmin, updateadmin,logoutAdmin } = adminSlice.actions;
 
 export default adminSlice.reducer;

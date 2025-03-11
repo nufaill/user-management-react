@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logoutAdmin } from "@/Redux/Slices/adminSlice";
+import { logoutAdmin } from "@/Redux/Slices/AdminSlice";
 import Alert from '../../Alert/Alert'; // Import the custom Alert component
 import './AdminHome.css';
 

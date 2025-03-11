@@ -3,7 +3,7 @@ import "./AdminDashboard.css";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logoutAdmin } from "@/Redux/Slices/adminSlice";
+import { logoutAdmin } from "@/Redux/Slices/AdminSlice";
 import Alert from "../../Alert/Alert";
 
 const AdminDash = () => {

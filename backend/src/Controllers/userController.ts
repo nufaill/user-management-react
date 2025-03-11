@@ -128,6 +128,7 @@ export const getuserData = async (req: Request, res: Response): Promise<void> =>
 export const userLogout = async (req: Request, res: Response): Promise<void> => {
   try {
     res.clearCookie("token", {
+      path: "/",
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",

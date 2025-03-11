@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import { logoutUser } from '../../../Redux/Slice/userSlice';
+import { logoutUser } from '@/Redux/Slices/userSlice';
 import Alert from '../../Alert/Alert';
 import './UserHome.css';
 
@@ -34,7 +34,8 @@ export default function Home() {
                         email: res.data.email,
                         phone: res.data.phone || res.data.mobile,
                         image: res.data.profileImage || res.data.image
-                    });
+                    });    
+                    console.log("User Image URL:", res.data.profileImage || res.data.image);                
                 } catch (error) {
                     console.log('Error fetching user data:', error);
                 }
@@ -78,13 +79,13 @@ export default function Home() {
         <h2 className="welcome-message">Welcome, {userData.name || 'User'}</h2>
         {userData.image && (
             <img 
-                src={userData.image.startsWith('http') 
-                    ? userData.image 
-                    : `http://localhost:5010${userData.image}` 
-                } 
-                alt="Profile" 
-                className="profile-img" 
-            />
+            src={userData.image.startsWith('http') 
+                ? userData.image 
+                : `http://localhost:5010${userData.image}`
+            } 
+            alt="Profile" 
+            className="profile-img" 
+        />        
         )}
         <div className="user-details">
             <h3>{userData.name || 'N/A'}</h3>

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './UserUpdate.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateUser } from '../../../Redux/Slices/userSlice';
+import { updateUser } from '@/Redux/Slices/userSlice';
 
 const UpdateProfile = () => {
   const navigate = useNavigate();

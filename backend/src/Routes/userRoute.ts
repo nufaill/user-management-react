@@ -1,14 +1,24 @@
 import express, { Request, Response } from "express";
 import multer from "multer";
 import path from "path";
+import fs from "fs";
 import { createUser, verifyLogin, getuserData, userLogout, updateUser } from "../Controllers/userController";
 import verifyUser from "../Middleware/userAuth"; 
+
 const userRoute = express.Router();
+
+// Define the upload folder path
+const uploadFolder = path.join(process.cwd(), "uploads/images");
+
+// Ensure the folder exists
+if (!fs.existsSync(uploadFolder)) {
+    fs.mkdirSync(uploadFolder, { recursive: true });
+}
 
 // Multer storage configuration
 const storage = multer.diskStorage({
     destination: (req: Request, file: Express.Multer.File, cb: (error: Error | null, destination: string) => void) => {
-        cb(null, path.join(__dirname, '../uploads/images'));
+        cb(null, uploadFolder);
     },
     filename: (req: Request, file: Express.Multer.File, cb: (error: Error | null, filename: string) => void) => {
         const name = `${Date.now()}-${file.originalname}`;

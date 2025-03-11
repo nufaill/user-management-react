@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { addAdmin } from '@/Redux/Slices/adminSlice';
+import { addadmin } from "@/Redux/Slices/AdminSlice";
 import './AdminLogin.css'; // Import your CSS file for custom styles
-import img from '../../../assets/img.svg';
+// import img from '../../../assets/img.svg';
 
 function AdminLogin() {
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ function AdminLogin() {
             const response = await axios.post("http://localhost:5010/admin/login", { email, password }, { withCredentials: true });
     
             if (response.data && response.data.name) {
-                dispatch(addAdmin({
+                dispatch(addadmin({
                     admin: {
                         _id: response.data._id,
                         name: response.data.name,
@@ -97,7 +97,7 @@ function AdminLogin() {
                         </div>
                         <div className="w3l_form align-self">
                             <div className="left_grid_info">
-                                <img src={img} alt="Login illustration" className="img-fluid" />
+                                {/* <img src={img} alt="Login illustration" className="img-fluid" /> */}
                             </div>
                         </div>
                     </div>

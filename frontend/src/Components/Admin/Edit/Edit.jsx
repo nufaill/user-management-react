@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { updateUser } from '../../../Redux/Slices/userSlice';
+import { updateUser } from "@/Redux/Slices/UserSlice";
 import './Edit.css';
 
 const EditAdmin = () => {
