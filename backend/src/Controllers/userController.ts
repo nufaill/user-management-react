@@ -6,7 +6,14 @@ import User, { IUser } from "../Models/userModels";
 
 dotenv.config();
 
+
+
 const JWT_SECRET = process.env.JWT_SECRET as string;
+
+
+interface CustomRequest extends Request {
+  session: any;
+}
 
 const securePassword = async (password: string): Promise<string | undefined> => {
   try {
@@ -127,19 +134,24 @@ export const getuserData = async (req: Request, res: Response): Promise<void> =>
 
 export const userLogout = async (req: Request, res: Response): Promise<void> => {
   try {
-    res.clearCookie("token", {
-      path: "/",
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-    });
+      console.log("🔍 Checking session before logout:", req.session); // Debug log
 
-    res.status(200).json({ message: "Logged out successfully" });
+      res.clearCookie("token", {
+          path: "/",
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+      });
+
+      console.log("✅ Token cookie cleared");
+
+      res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
-    console.error("Logout error:", error);
-    res.status(500).json({ message: "Server error during logout" });
+      console.error("❌ Logout error:", error);
+      res.status(500).json({ message: "Server error during logout" });
   }
 };
+
 
 export const updateUser = async (req: Request, res: Response): Promise<void> => {
   try {

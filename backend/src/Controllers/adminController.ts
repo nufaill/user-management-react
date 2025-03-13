@@ -26,6 +26,7 @@ export const adminLogin = async (req: Request, res: Response): Promise<void> => 
   try {
     const { email, password } = req.body;
     const adminInfo: IUser | null = await User.findOne({ email });
+    console.log("Admin Info:", adminInfo);
 
     if (!adminInfo || !adminInfo.isAdmin) {
       res.status(403).json({ message: "No access" });
@@ -33,18 +34,16 @@ export const adminLogin = async (req: Request, res: Response): Promise<void> => 
     }
 
     const isPasswordValid = await bcrypt.compare(password, adminInfo.password);
-    if (!isPasswordValid) {
+    console.log("Entered Password:", password);
+    console.log("Stored Hashed Password:", adminInfo.password);
+    console.log("Password Match:", isPasswordValid);
+        if (!isPasswordValid) {
       res.status(401).json({ message: "Invalid password" });
       return;
     }
 
     const token = generateToken(adminInfo._id);
-    res.cookie("token", token, {
-      httpOnly: true,
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-    });
+    res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" });
 
     res.status(200).json({
       message: "Login successful",
@@ -55,6 +54,16 @@ export const adminLogin = async (req: Request, res: Response): Promise<void> => 
       image: adminInfo.image,
       token,
     });
+
+    if (!isPasswordValid) {
+      console.log("Password validation failed");
+      res.status(401).json({ message: "Invalid password" });
+      return;
+    }
+    
+    console.log("Login successful, generating token...");
+    console.log("Token generated:", token);
+
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({ message: "Server error" });

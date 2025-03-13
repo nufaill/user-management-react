@@ -1,43 +1,49 @@
 import { Request, Response, NextFunction } from "express";
-import dotenv from "dotenv";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import User, { IUser } from "../Models/userModels";
+import jwt from "jsonwebtoken";
+import User from "../Models/userModels";
 
-dotenv.config();
-
-interface AuthRequest extends Request {
-  user?: IUser; // Extend Request type to include user
+interface DecodedToken {
+  id: string;
 }
 
-const verifyUser = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
-  const token = req.cookies?.token; // Get the token from cookies
+interface AuthenticatedRequest extends Request {
+  user?: any;
+}
 
-  if (!token) {
-    console.log("No token provided");
-    res.status(401).json({ message: "Not authorized, no token" });
-    return; // Ensure function exits
-  }
-
+const verifyUser = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
-    // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
+    const token = req.cookies?.token;
 
-    // Find user by ID, excluding password
+    if (!token) {
+      res.status(401).json({ message: "Not authorized, no token" });
+      return; // Ensure the function exits
+    }
+
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as DecodedToken;
+
+    // Fetch user details excluding password
     const user = await User.findById(decoded.id).select("-password");
 
     if (!user) {
       res.status(401).json({ message: "User not found" });
-      return;
+      return; // Ensure the function exits
     }
 
-    // Attach user info to the request object
-    req.user = user;
-
-    next(); // Call next() after successful authentication
+    req.user = user; // Attach user to request
+    next(); // Call next() to proceed
   } catch (error) {
     console.error("Token verification failed:", error);
     res.status(401).json({ message: "Not authorized, token failed" });
   }
 };
 
-export default verifyUser; // ✅ Export directly as default function
+const auth = {
+  verifyUser,
+};
+
+export default auth;

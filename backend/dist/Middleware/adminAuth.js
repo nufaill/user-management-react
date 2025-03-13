@@ -13,9 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const userModels_1 = __importDefault(require("../Models/userModels"));
-dotenv_1.default.config();
 const verifyAdmin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
@@ -23,30 +23,43 @@ const verifyAdmin = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         console.log("Token from cookie:", token);
         if (!token) {
             console.log("No token in cookies");
-            res.status(401).json({ success: false, message: "Not authorized, no token" });
-            return; // Ensure the function exits
+            res.status(401).json({
+                success: false,
+                message: "Not authorized, no token"
+            });
+            return; // Ensure function ends
         }
         // Verify token
         const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
         // Get user details excluding password
         const user = yield userModels_1.default.findById(decoded.id).select("-password");
         if (!user) {
-            res.status(401).json({ success: false, message: "User not found" });
+            res.status(401).json({
+                success: false,
+                message: "User not found"
+            });
             return;
         }
         // Verify if user is admin
         if (!user.isAdmin) {
-            res.status(403).json({ success: false, message: "Not authorized as admin" });
+            res.status(403).json({
+                success: false,
+                message: "Not authorized as admin"
+            });
             return;
         }
         // Attach user to request
         req.user = user;
         console.log("Authenticated admin:", req.user);
-        next(); // Call `next()` correctly after authentication
+        next(); // No return needed
     }
     catch (error) {
         console.error("Admin verification error:", error);
-        res.status(401).json({ success: false, message: "Not authorized, token failed" });
+        res.status(401).json({
+            success: false,
+            message: "Not authorized, token failed"
+        });
+        return;
     }
 });
 exports.default = verifyAdmin;

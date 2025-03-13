@@ -18,7 +18,7 @@ const adminRouter = express.Router();
 // Multer storage setup for image uploads
 const storage = multer.diskStorage({
     destination: (req: Request, file: Express.Multer.File, cb: (error: Error | null, destination: string) => void) => {
-        cb(null, path.join(__dirname, "../Multer/images"));
+        cb(null, path.join(__dirname, "../uploads/images"));
     },
     filename: (req: Request, file: Express.Multer.File, cb: (error: Error | null, filename: string) => void) => {
         const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;

@@ -53,15 +53,22 @@ export default function Home() {
 
     const userLogout = async () => {
         try {
-            await axios.post("http://localhost:5010/user/logout", {}, { withCredentials: true });
-            dispatch(logoutUser());
-            toast.success("Logout successful!");
-            navigate("/");
+            const res = await axios.post("http://localhost:5010/user/logout", {}, { 
+                withCredentials: true // ✅ Ensures cookies are sent
+            });
+    
+            if (res.status === 200) {
+                dispatch(logoutUser());
+                toast.success("Logout successful!");
+                setTimeout(() => navigate("/"), 1000);
+            }
         } catch (error) {
-            console.log('Error during logout:', error);
-            toast.error("Logout failed. Please try again.");
+            console.log('❌ Logout error:', error.response);
+            toast.error(error.response?.data?.message || "Logout failed. Please try again.");
         }
     };
+    
+    
     
 
     const handleUpdate = () => {

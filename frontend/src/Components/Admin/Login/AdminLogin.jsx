@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { addadmin } from "@/Redux/Slices/AdminSlice";
+import { addAdmin } from "@/Redux/Slices/AdminSlice";
 import './AdminLogin.css'; // Import your CSS file for custom styles
 // import img from '../../../assets/img.svg';
 
@@ -20,10 +20,20 @@ function AdminLogin() {
         setLoading(true);
     
         try {
-            const response = await axios.post("http://localhost:5010/admin/login", { email, password }, { withCredentials: true });
+            console.log("Sending login request with:", { email, password });
+            const response = await axios.post(
+                "http://localhost:5010/admin/login", 
+                { email, password }, 
+                { 
+                  withCredentials: true,
+                  headers: {
+                    'Content-Type': 'application/json'
+                  }
+                }
+              );
     
             if (response.data && response.data.name) {
-                dispatch(addadmin({
+                dispatch(addAdmin({
                     admin: {
                         _id: response.data._id,
                         name: response.data.name,
@@ -33,17 +43,22 @@ function AdminLogin() {
                     },
                     token: response.data.token
                 }));
-    
+                
+                console.log("Full login response:", response);
+                console.log("Response data:", response.data);
+
                 toast.success(`Hello ${response.data.name}, you are successfully logged in!`);
     
                 setTimeout(() => {
                     navigate("/admin/home");
-                }, 2000);
+                }, 2000);                
             } else {
                 toast.error('Login failed: Invalid Credentials');
             }
         } catch (err) {
             const errorMessage = err.response?.data?.message || 'Invalid credentials, please try again';
+            console.error("Login error details:", err);
+            console.error("Response data:", err.response?.data);
             toast.error(errorMessage);
         } finally {
             setLoading(false);

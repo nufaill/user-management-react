@@ -7,11 +7,13 @@ const AdminAuth = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-  if (admin) {
+    // If admin exists and trying to access login page, redirect to home
+    if (admin) {
       navigate('/admin/home', { replace: true });
     }
   }, [admin, navigate]);
 
+  // Prevent showing login page if already authenticated
   if (admin) {
     return <Navigate to="/admin/home" replace />;
   }

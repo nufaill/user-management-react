@@ -1,16 +1,14 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import path from 'path';
-import connectDB from './Config/db';
+import connectDB from './Config/db';  
 import userRoute from './Routes/userRoute';
-import adminRoute from './Routes/adminRoute';
-import dotenv from 'dotenv';
+import adminRoute from './Routes/adminRoute'; 
 
-dotenv.config(); // Load environment variables
+const app: Application = express();
 
-const app = express();
-const corsOptions: cors.CorsOptions = {
+const corsOptions = {
     origin: 'http://localhost:5173', // Adjust this to your frontend URL
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
 };
@@ -31,13 +29,13 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 connectDB();
 
 // Serve static files from the uploads directory
-app.use('/uploads/images', express.static(path.join(__dirname, 'multer/images')));
+app.use('/uploads/images', express.static(path.join(__dirname, 'uploads/images'))); // Serve uploaded images
 
 // User routes
-app.use('/user', userRoute);
+app.use("/user", userRoute);
 
 // Admin routes
-app.use('/admin', adminRoute);
+app.use("/admin", adminRoute); // Connect the admin routes
 
 const port: number = Number(process.env.PORT) || 5010;
 app.listen(port, () => {

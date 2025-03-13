@@ -1,16 +1,16 @@
-import { Navigate } from "react-router-dom";
-import {useAuth} from '../Context/AuthContext';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../Context/AuthContext';
 
-export const PublicRoute = ({children}) =>{
-    const {isAuthenticated, isLoading} = useAuth();
+export const PublicRoute = ({ children }) => {
+    const { isAuthenticated, isLoading } = useAuth();
 
-    if (isLoading){
+    if (isLoading) {
         return <div>Loading...</div>;
     }
 
-    if (isAuthenticated){
-        return <Navigate to='/' />
+    if (isAuthenticated) {
+        return <Navigate to="/" />;
     }
 
     return children;
-}
+};

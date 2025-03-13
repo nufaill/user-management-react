@@ -1,44 +1,45 @@
-import { createContext, useState, useContext, useEffect, Children } from 'react';
+// src/context/AuthContext.jsx
+import { createContext, useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext(null);
 
-export const AuthProvider = ({Children}) =>{
+export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
     const checkAuthStatus = async () => {
-        try{
-            const response = await fetch('http://localhost:5010/user/check-auth',{
-                    credentials: 'include'
+        try {
+            const response = await fetch('http://localhost:5010/user/check-auth', {
+                credentials: 'include'
             });
             const data = await response.json();
 
-            if (data.authenticated&& data.user){
+            if (data.authenticated && data.user) {
                 setIsAuthenticated(true);
                 setUser(data.user);
-            }else{
+            } else {
                 setIsAuthenticated(false);
                 setUser(null);
-                navigate('/login')
+                navigate('/login');
             }
-        }catch (error){
+        } catch (error) {
             console.error('Auth check failed:', error);
             setIsAuthenticated(false);
             setUser(null);
             navigate('/login');
-        }finally{
-            setIsLoading();
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    useEffect(()=>{
-        checkAuthStatus()
-    },[]);
+    useEffect(() => {
+        checkAuthStatus();
+    }, []);
 
-    const login = async (email,password)=>{
+    const login = async (email, password) => {
         try {
             const response = await fetch('http://localhost:5010/user/login', {
                 method: 'POST',
@@ -63,7 +64,7 @@ export const AuthProvider = ({Children}) =>{
             console.error('Login error:', error);
             return { success: false, message: 'Login failed' };
         }
-    }
+    };
 
     const logout = async () => {
         try {
@@ -95,15 +96,15 @@ export const AuthProvider = ({Children}) =>{
 
     return (
         <AuthContext.Provider value={value}>
-            {!isLoading && Children}
+            {!isLoading && children}
         </AuthContext.Provider>
     );
 };
 
-export const useAuth = () =>{
+export const useAuth = () => {
     const context = useContext(AuthContext);
-    if(!context){
-        throw new Error ('useAuth must be used within an AuthProvider')
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider');
     }
     return context;
-}
+};

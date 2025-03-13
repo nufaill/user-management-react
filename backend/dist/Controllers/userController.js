@@ -125,15 +125,18 @@ const getuserData = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getuserData = getuserData;
 const userLogout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log("🔍 Checking session before logout:", req.session); // Debug log
         res.clearCookie("token", {
+            path: "/",
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
         });
+        console.log("✅ Token cookie cleared");
         res.status(200).json({ message: "Logged out successfully" });
     }
     catch (error) {
-        console.error("Logout error:", error);
+        console.error("❌ Logout error:", error);
         res.status(500).json({ message: "Server error during logout" });
     }
 });

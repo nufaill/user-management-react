@@ -10,8 +10,6 @@ const path_1 = __importDefault(require("path"));
 const db_1 = __importDefault(require("./Config/db"));
 const userRoute_1 = __importDefault(require("./Routes/userRoute"));
 const adminRoute_1 = __importDefault(require("./Routes/adminRoute"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config(); // Load environment variables
 const app = (0, express_1.default)();
 const corsOptions = {
     origin: 'http://localhost:5173', // Adjust this to your frontend URL
@@ -30,11 +28,11 @@ app.use((req, res, next) => {
 // Connect to the database
 (0, db_1.default)();
 // Serve static files from the uploads directory
-app.use('/uploads/images', express_1.default.static(path_1.default.join(__dirname, 'multer/images')));
+app.use('/uploads/images', express_1.default.static(path_1.default.join(__dirname, 'uploads/images'))); // Serve uploaded images
 // User routes
-app.use('/user', userRoute_1.default);
+app.use("/user", userRoute_1.default);
 // Admin routes
-app.use('/admin', adminRoute_1.default);
+app.use("/admin", adminRoute_1.default); // Connect the admin routes
 const port = Number(process.env.PORT) || 5010;
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
