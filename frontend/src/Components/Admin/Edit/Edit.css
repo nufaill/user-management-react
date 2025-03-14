@@ -29,7 +29,7 @@
 }
 
 .modern-edit-subtitle {
-    color: #718096;
+    color: #424851;
     font-size: 16px;
 }
 
@@ -75,7 +75,7 @@
 }
 
 .modern-input:focus {
-    border-color: #4299e1;
+    border-color: #000000;
     box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
     outline: none;
 }
@@ -108,7 +108,7 @@
 }
 
 .modern-submit-btn {
-    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    background: linear-gradient(135deg, #222223 0%, #000000 100%);
     color: white;
     padding: 14px;
     border-radius: 10px;

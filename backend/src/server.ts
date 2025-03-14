@@ -9,8 +9,8 @@ import adminRoute from './Routes/adminRoute';
 const app: Application = express();
 
 const corsOptions = {
-    origin: 'http://localhost:5173', // Adjust this to your frontend URL
-    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+    origin: 'http://localhost:5173', 
+    credentials: true, 
 };
 
 app.use(cors(corsOptions));
@@ -25,17 +25,12 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     next();
 });
 
-// Connect to the database
 connectDB();
 
-// Serve static files from the uploads directory
-app.use('/uploads/images', express.static(path.join(__dirname, 'uploads/images'))); // Serve uploaded images
-
-// User routes
+app.use('/uploads/images', express.static(path.join(__dirname, 'uploads/images'))); 
 app.use("/user", userRoute);
 
-// Admin routes
-app.use("/admin", adminRoute); // Connect the admin routes
+app.use("/admin", adminRoute); 
 
 const port: number = Number(process.env.PORT) || 5010;
 app.listen(port, () => {

@@ -1,283 +1,165 @@
 .dashboard-wrapper {
     min-height: 100vh;
     width: 100vw;
-    background: linear-gradient(135deg, #202a38 0%, #030508 100%);
+    background: linear-gradient(135deg, #f4f4f4 0%, #d0d0d0 100%);
     padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .dashboard-container {
-    background: white;
+    background: #121212;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     padding: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    gap: 2rem;
-}
-
-.header-left {
-    flex: 1;
-    min-width: 200px;
+    max-width: 1200px;
+    width: 100%;
 }
 
 .dashboard-title {
-    font-size: 28px;
-    color: #2d3748;
-    margin: 0;
+    font-size: 32px;
+    color: #ffffff;
+    margin-bottom: 10px;
     font-weight: 700;
+    text-align: center;
 }
 
 .dashboard-subtitle {
-    color: #718096;
-    margin: 8px 0 0 0;
-    font-size: 16px;
-}
-
-.header-right {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    color: #bbbbbb;
+    margin-bottom: 20px;
+    font-size: 18px;
+    text-align: center;
 }
 
 .search-container {
     display: flex;
-    gap: 1rem;
-    width: 100%;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
 .search-input {
     flex: 1;
     padding: 12px 20px;
-    border: 2px solid #e2e8f0;
+    border: 2px solid #444;
     border-radius: 10px;
-    font-size: 15px;
+    font-size: 16px;
+    background: #222;
+    color: white;
     transition: all 0.3s ease;
 }
 
 .search-input:focus {
-    border-color: #4299e1;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+    border-color: #777;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
     outline: none;
 }
 
-.search-button {
-    padding: 12px 24px;
-    background: #4299e1;
-    color: white;
+button {
+    padding: 10px 16px;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-.search-button:hover {
-    background: #3182ce;
-    transform: translateY(-1px);
-}
-
-.action-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
-}
-
-.add-button, .logout-button {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .add-button {
-    background: #48bb78;
+    background: #4caf50;
     color: white;
 }
 
 .add-button:hover {
-    background: #38a169;
-    transform: translateY(-1px);
+    background: #45a049;
 }
 
 .logout-button {
-    background: #f56565;
+    background: #e53935;
     color: white;
 }
 
 .logout-button:hover {
-    background: #e53e3e;
-    transform: translateY(-1px);
+    background: #d32f2f;
 }
 
 .table-container {
     overflow-x: auto;
-    background: white;
+    background: #181818;
     border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
 }
 
 .modern-table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.modern-table th, .modern-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #444;
+    color: white;
+    text-align: center;
 }
 
 .modern-table th {
-    background: #2d3748;
-    color: white;
-    font-weight: 500;
-    padding: 1rem;
-    text-align: left;
-}
-
-.modern-table th:first-child {
-    border-top-left-radius: 15px;
-}
-
-.modern-table th:last-child {
-    border-top-right-radius: 15px;
-}
-
-.modern-table td {
-    padding: 1rem;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.modern-table tr:last-child td {
-    border-bottom: none;
+    background: #ffffff;
+    color: #222;
+    font-weight: 600;
+    border-bottom: 3px solid #444;
 }
 
 .modern-table tr:hover {
-    background: #f7fafc;
+    background: #292929;
 }
 
-.user-profile {
+.user-info {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 10px;
+    padding: 8px 12px;
 }
 
-.profile-image {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+.user-info img {
+    width: 10px; /* Reduce profile image size */
+    height: 10px;
+    border-radius: 10%;
     object-fit: cover;
-    border: 2px solid #e2e8f0;
 }
-
 .user-name {
-    font-weight: 500;
-    color: #2d3748;
+    font-weight: 600;
+    color: white;
 }
 
-.user-email {
-    color: #4a5568;
+.user-email, .user-mobile {
+    color: #aaaaaa;
 }
 
-.user-mobile {
-    color: #4a5568;
-    font-family: monospace;
-}
-
-.action-cell {
+/* Align buttons properly */
+.action-buttons {
     display: flex;
-    gap: 0.5rem;
+    justify-content: center;
+    gap: 10px;
 }
 
-.edit-button, .delete-button {
-    padding: 8px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    width: 36px;
-    height: 36px;
+.action-buttons button {
+    padding: 8px 12px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 5px;
 }
 
 .edit-button {
-    background: #ecc94b;
+    background: #4CAF50;
     color: white;
-}
-
-.edit-button:hover {
-    background: #d69e2e;
-    transform: translateY(-1px);
 }
 
 .delete-button {
-    background: #f56565;
+    background: #e53935;
     color: white;
-}
-
-.delete-button:hover {
-    background: #e53e3e;
-    transform: translateY(-1px);
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .dashboard-header {
-        flex-direction: column;
-    }
-
-    .header-right {
-        width: 100%;
-    }
-}
-
-@media (max-width: 768px) {
-    .dashboard-wrapper {
-        padding: 1rem;
-    }
-
-    .dashboard-container {
-        padding: 1rem;
-    }
-
-    .search-container {
-        flex-direction: column;
-    }
-
-    .action-buttons {
-        flex-direction: column;
-    }
-
-    .modern-table {
-        font-size: 14px;
-    }
-
-    .action-cell {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-}
-
-/* Add animation for alerts */
-@keyframes slideIn {
-    from {
-        transform: translateY(-20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.alert {
-    animation: slideIn 0.3s ease;
 }

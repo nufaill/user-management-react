@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userSlice from './Slices/userSlice';
+import userSlice from './Slices/UserSlice';
 import adminSlice from './Slices/AdminSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -29,9 +29,7 @@ const store = configureStore({
     }),
 });
 
-// Create the persistor
 const persistor = persistStore(store);
 
-// Export default store and persistor
 export default store;
 export { persistor };

@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // User routes
-userRoute.post("/create", upload.single("image"), createUser);  // User registration with image upload
+userRoute.post("/create", upload.single("image"), createUser);  
 userRoute.post("/login", verifyLogin);  // User login
 userRoute.get("/:id", getuserData);  // Get user details by ID
 userRoute.post("/logout", auth.verifyUser, userLogout);

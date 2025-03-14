@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addAdmin } from "@/Redux/Slices/AdminSlice";
 import './AdminLogin.css'; // Import your CSS file for custom styles
-// import img from '../../../assets/img.svg';
+import { FaUser, FaLock, FaSignInAlt } from 'react-icons/fa'; // Import icons
 
 function AdminLogin() {
     const navigate = useNavigate();
@@ -14,9 +14,35 @@ function AdminLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState({});
+
+    const validateForm = () => {
+        const newErrors = {};
+        
+        if (!email.trim()) {
+            newErrors.email = "Email is required";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            newErrors.email = "Please enter a valid email";
+        }
+        
+        if (!password.trim()) {
+            newErrors.password = "Password is required";
+        } else if (password.length < 6) {
+            newErrors.password = "Password must be at least 6 characters";
+        }
+        
+        return newErrors;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        const formErrors = validateForm();
+        if (Object.keys(formErrors).length > 0) {
+            setErrors(formErrors);
+            return;
+        }
+        
         setLoading(true);
     
         try {
@@ -38,7 +64,7 @@ function AdminLogin() {
                         _id: response.data._id,
                         name: response.data.name,
                         email: response.data.email,
-                        image: response.data.image, // Ensure the image is included
+                        image: response.data.image,
                         mobile: response.data.mobile
                     },
                     token: response.data.token
@@ -47,7 +73,7 @@ function AdminLogin() {
                 console.log("Full login response:", response);
                 console.log("Response data:", response.data);
 
-                toast.success(`Hello ${response.data.name}, you are successfully logged in!`);
+                toast.success(`Welcome back, ${response.data.name}!`);
     
                 setTimeout(() => {
                     navigate("/admin/home");
@@ -65,10 +91,16 @@ function AdminLogin() {
         }
     };
 
+    const handleInputChange = (setter, value, field) => {
+        setter(value);
+        if (errors[field]) {
+            setErrors({...errors, [field]: null});
+        }
+    };
+
     return (
-        <section className="w3l-hotair-form">
-            <h1>Admin Portal</h1>
-            <div className="container">
+        
+            <div className="admin-login-container">
                 <ToastContainer
                     position="top-right"
                     autoClose={5010}
@@ -79,47 +111,84 @@ function AdminLogin() {
                     pauseOnFocusLoss
                     draggable
                     pauseOnHover
-                    theme="colored"
+                    theme="dark"
                 />
-                <div className="workinghny-form-grid">
-                    <div className="main-hotair">
-                        <div className="content-wthree">
-                            <h2>Admin Login</h2>
-                            <form onSubmit={handleSubmit} method="POST" className='admin-f'>
-                                <input
-                                    type="email"
-                                    className="text"
-                                    name="email"
-                                    placeholder="Enter your email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                    autoFocus
-                                />
-                                <input
-                                    type="password"
-                                    className="password"
-                                    name="password"
-                                    placeholder="Enter your password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required
-                                />
-                                <button className="btn" type="submit" disabled={loading}>
-                                    {loading ? 'Logging in...' : 'Log In'}
-                                </button>
-                            </form>
-                        </div>
-                        <div className="w3l_form align-self">
-                            <div className="left_grid_info">
-                                {/* <img src={img} alt="Login illustration" className="img-fluid" /> */}
+                
+                <div className="admin-login-box">
+                    <div className="admin-login-header">
+                        <h1>Admin Login System</h1>
+                        <div className="admin-login-logo">
+                            <div className="admin-logo-circle">
+                                <FaUser size={30} />
                             </div>
                         </div>
                     </div>
+                    
+                    <div className="admin-login-content">
+                        <h2>Sign In</h2>
+                        <p className="admin-login-subtitle">Access your admin dashboard</p>
+                        
+                        <form onSubmit={handleSubmit} method="POST" className="admin-login-form">
+                            <div className="admin-form-group">
+                                <div className="admin-input-icon">
+                                    <FaUser />
+                                </div>
+                                <input
+                                    type="email"
+                                    className={`admin-input ${errors.email ? 'admin-input-error' : ''}`}
+                                    name="email"
+                                    placeholder="Email Address"
+                                    value={email}
+                                    onChange={(e) => handleInputChange(setEmail, e.target.value, 'email')}
+                                    required
+                                    autoFocus
+                                />
+                                {errors.email && <div className="admin-error-message">{errors.email}</div>}
+                            </div>
+                            
+                            <div className="admin-form-group">
+                                <div className="admin-input-icon">
+                                    <FaLock />
+                                </div>
+                                <input
+                                    type="password"
+                                    className={`admin-input ${errors.password ? 'admin-input-error' : ''}`}
+                                    name="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => handleInputChange(setPassword, e.target.value, 'password')}
+                                    required
+                                />
+                                {errors.password && <div className="admin-error-message">{errors.password}</div>}
+                            </div>
+                            
+                            <div className="admin-form-options">
+                                <div className="admin-remember-me">
+                                    <input type="checkbox" id="remember-me" />
+                                    <label htmlFor="remember-me">Remember me</label>
+                                </div>
+                                <a href="#" className="admin-forgot-password">Forgot Password?</a>
+                            </div>
+                            
+                            <button className="admin-login-button" type="submit" disabled={loading}>
+                                {loading ? (
+                                    <span className="admin-loading-spinner"></span>
+                                ) : (
+                                    <>
+                                        <span>Login</span>
+                                        <FaSignInAlt className="admin-button-icon" />
+                                    </>
+                                )}
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div className="admin-login-footer">
+                        <p>&copy; {new Date().getFullYear()} Admin Dashboard. All rights reserved.</p>
+                    </div>
                 </div>
             </div>
-            <div className="copyright text-center"></div>
-        </section>
+      
     );
 }
 
